@@ -4,7 +4,7 @@ body{
 }
 #board{
     background-color: rgb(0, 0, 0);
-    margin: 8rem auto;
+    margin: 6rem auto;
     width: 21rem;
     height: 21rem;
 }

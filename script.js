@@ -1,41 +1,13 @@
 const blocks = document.querySelectorAll(".block");
 const restart = document.querySelector(".restart");
 const win = document.querySelector(".win");
+const turn = document.querySelector(".turn");
 
-let current = "X";  //false implies X, true implies O
+let current = "X";
 let blocksFilled = 0;
 let isClickAllowed = true;
 
-blocks.forEach((ele) => {
-    ele.addEventListener("click", () => {
-        if (isClickAllowed) {
-            if (ele.innerHTML == "") {
-                ele.innerHTML = current;
-                // console.log(current);
-                if (current === "X") {
-                    current = "O"
-                }
-                else current = "X"
-                blocksFilled++;
-            }
-            check();
-        }
-    })
-})
-
-
-restart.addEventListener("click", () => {
-    blocks.forEach((ele) => {
-        ele.innerHTML = ""
-    })
-    blocksFilled = 0;
-    win.innerHTML = ""
-    isClickAllowed = true;
-    current="X";
-})
-
-
-function check() {
+let check = () => {
     for (let i = 0; i < 9; i += 3) {    //for horizontal check
         if (blocks[i].innerHTML !== "" && blocks[i].innerHTML === blocks[i + 1].innerHTML && blocks[i + 1].innerHTML === blocks[i + 2].innerHTML) {
             Winner(true, blocks[i].innerHTML);
@@ -60,14 +32,48 @@ function check() {
         Winner(true, blocks[i].innerHTML);
         return;
     }
+
     //all filled but no winner
     if (blocksFilled === blocks.length) Winner(false)
 }
 
-function Winner(notDraw, winner) {
+let Winner = (notDraw, winner) => {
     if (notDraw) win.innerHTML = winner + " Won!";
     else win.innerHTML = "Draw!";
     isClickAllowed = false;
 }
+
+let reset = () => {
+    blocks.forEach((ele) => {
+        ele.innerHTML = ""
+    })
+    blocksFilled = 0;
+    win.innerHTML = ""
+    isClickAllowed = true;
+    current = "X";
+}
+
+let ValidMove = () => {
+    if (isClickAllowed) {
+        if (ele.innerHTML == "") {
+            ele.innerHTML = current;
+            if (current === "X") {
+                current = "O"
+            }
+            else {
+                current = "X"
+            }
+            turn.innerHTML = `${current}'s turn`
+            blocksFilled++;
+        }
+        check();
+    }
+}
+
+blocks.forEach((ele) => {
+    ele.addEventListener("click", ValidMove)
+})
+
+restart.addEventListener("click", reset);
 
 
