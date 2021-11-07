@@ -51,9 +51,10 @@ let reset = () => {
     win.innerHTML = ""
     isClickAllowed = true;
     current = "X";
+    turn.innerHTML=`${current}'s turn`
 }
 
-let ValidMove = () => {
+let ValidMove = (ele) => {
     if (isClickAllowed) {
         if (ele.innerHTML == "") {
             ele.innerHTML = current;
@@ -71,7 +72,7 @@ let ValidMove = () => {
 }
 
 blocks.forEach((ele) => {
-    ele.addEventListener("click", ValidMove)
+    ele.addEventListener("click", ()=>ValidMove(ele))   //passing parameter to callback using anonymous fn
 })
 
 restart.addEventListener("click", reset);
